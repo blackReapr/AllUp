@@ -7,7 +7,7 @@
         {
             <div class="single-product mt-30">
                 <div class="product-image">
-                    <a href="single-product.html">
+                    <a href="/product/detail/@product.Id">
                         <img class="first-image" src="~/assets/images/product/@product.MainImage" alt="product">
                         <img class="second-image" src="~/assets/images/product/@product.HoverImage" alt="product">
                     </a>
@@ -30,7 +30,7 @@
                         <li><i class="fas fa-star"></i></li>
                         <li><i class="fas fa-star"></i></li>
                     </ul>
-                    <h4 class="product-title"><a href="single-product.html">@product.Name</a></h4>
+                    <h4 class="product-title"><a href="/product/detail/@product.Id">@product.Name</a></h4>
                     @if (product.DiscountPrice > 0)
                     {
                         <div class="product-price">

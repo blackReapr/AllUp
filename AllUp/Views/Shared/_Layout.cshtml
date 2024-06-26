@@ -1,6 +1,7 @@
-﻿@inject LayoutService layoutService
+﻿@inject ILayoutService layoutService
 @{
     IDictionary<string, string> settings = await layoutService.GetSettingsAsync();
+    IEnumerable<Category> categories = await layoutService.GetCategoriesAsync();
 }
 
 <!doctype html>
@@ -22,16 +23,15 @@
 
 
     <!-- CSS
-	============================================ -->
-
+    ============================================ -->
     <!--===== Vendor CSS (Bootstrap & Icon Font) =====-->
-    
+
     <link rel="stylesheet" href="~/assets/css/plugins/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/plugins/ionicons.min.css">
     <link rel="stylesheet" href="~/assets/css/plugins/fontawesome.min.css">
 
     <!--===== Plugins CSS (All Plugins Files) =====-->
-    
+
     <link rel="stylesheet" href="~/assets/css/plugins/slick.css">
     <link rel="stylesheet" href="~/assets/css/plugins/animate.css">
     <link rel="stylesheet" href="~/assets/css/plugins/jquery-ui.min.css">
@@ -42,7 +42,6 @@
 
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
-
     <!-- <link rel="stylesheet" href="~/assets/css/vendor/plugins.min.css">
     <link rel="stylesheet" href="~/assets/css/style.min.css"> -->
 
@@ -60,7 +59,6 @@
     </div>
 
     <!--====== PRELOADER PART ENDS ======-->
-
     <!--====== Header Part Start ======-->
 
     <header class="header-area">
@@ -79,7 +77,7 @@
                                     <div class="dropdown">
                                         <button type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Setting <i class="icon ion-chevron-down"></i></button>
 
-                                         <ul class="dropdown-menu" aria-labelledby="setting">
+                                        <ul class="dropdown-menu" aria-labelledby="setting">
                                             <li><a href="my-account.html">My account</a></li>
                                             <li><a href="checkout.html">Checkout</a></li>
                                             <li><a href="login.html">Sign in</a></li>
@@ -136,114 +134,23 @@
                                 <div class="header-search media-body">
                                     <form action="#">
                                         <div class="search-category">
-                                            <select>
-                                                <option value="0">All categories</option>
-                                                <option value="12">Laptop</option>
-                                                <option value="13">- - Hot Categories</option>
-                                                <option value="19">- - - - Dresses</option>
-                                                <option value="20">- - - - Jackets &amp; Coats</option>
-                                                <option value="21">- - - - Sweaters</option>
-                                                <option value="22">- - - - Jeans</option>
-                                                <option value="23">- - - - Blouses &amp; Shirts</option>
-                                                <option value="14">- - Outerwear &amp; Jackets</option>
-                                                <option value="24">- - - - Basic Jackets</option>
-                                                <option value="25">- - - - Real Fur</option>
-                                                <option value="26">- - - - Down Coats</option>
-                                                <option value="27">- - - - Blazers</option>
-                                                <option value="28">- - - - Trench Coats</option>
-                                                <option value="15">- - Weddings &amp; Events</option>
-                                                <option value="29">- - - - Wedding Dresses</option>
-                                                <option value="30">- - - - Evening Dresses</option>
-                                                <option value="31">- - - - Prom Dresses</option>
-                                                <option value="32">- - - - Bridesmaid Dresses</option>
-                                                <option value="33">- - - - Wedding Accessories</option>
-                                                <option value="16">- - Bottoms</option>
-                                                <option value="34">- - - - Skirts</option>
-                                                <option value="35">- - - - Leggings</option>
-                                                <option value="36">- - - - Pants &amp; Capris</option>
-                                                <option value="37">- - - - Wide Leg Pants</option>
-                                                <option value="38">- - - - Shorts</option>
-                                                <option value="17">- - Tops &amp; Sets</option>
-                                                <option value="39">- - - - Tank Tops</option>
-                                                <option value="40">- - - - Suits &amp; Sets</option>
-                                                <option value="41">- - - - Jumpsuits</option>
-                                                <option value="42">- - - - Rompers</option>
-                                                <option value="43">- - - - Sleep &amp; Lounge</option>
-                                                <option value="18">- - Accessories</option>
-                                                <option value="44">- - - - Eyewear &amp; Accessories</option>
-                                                <option value="45">- - - - Hats &amp; Caps</option>
-                                                <option value="46">- - - - Belts &amp; Cummerbunds</option>
-                                                <option value="47">- - - - Scarves &amp; Wraps</option>
-                                                <option value="48">- - - - Gloves &amp; Mittens</option>
-                                                <option value="49">Computer</option>
-                                                <option value="50">- - Bottoms</option>
-                                                <option value="53">- - - - Skirts</option>
-                                                <option value="54">- - - - Leggings</option>
-                                                <option value="55">- - - - Jeans</option>
-                                                <option value="56">- - - - Pants &amp; Capris</option>
-                                                <option value="57">- - - - Shorts</option>
-                                                <option value="51">- - Outerwear &amp; Jackets</option>
-                                                <option value="58">- - - - Trench</option>
-                                                <option value="59">- - - - Genuine Leather</option>
-                                                <option value="60">- - - - Parkas</option>
-                                                <option value="61">- - - - Down Jackets</option>
-                                                <option value="62">- - - - Wool &amp; Blends</option>
-                                                <option value="52">- - Underwear &amp; Loungewear</option>
-                                                <option value="63">- - - - Boxers</option>
-                                                <option value="64">- - - - Briefs</option>
-                                                <option value="65">- - - - Long Johns</option>
-                                                <option value="66">- - - - Men's Sleep &amp; Lounge</option>
-                                                <option value="67">- - - - Pajama Sets</option>
-                                                <option value="68">Smartphone</option>
-                                                <option value="69">- - Accessories &amp; Parts</option>
-                                                <option value="75">- - - - Cables &amp; Adapters</option>
-                                                <option value="76">- - - - Batteries</option>
-                                                <option value="77">- - - - Chargers</option>
-                                                <option value="78">- - - - Bags &amp; Cases</option>
-                                                <option value="79">- - - - Electronic Cigarettes</option>
-                                                <option value="70">- - Audio &amp; Video</option>
-                                                <option value="80">- - - - Televisions</option>
-                                                <option value="81">- - - - TV Receivers</option>
-                                                <option value="82">- - - - Projectors</option>
-                                                <option value="83">- - - - Audio Amplifier Boards</option>
-                                                <option value="84">- - - - TV Sticks</option>
-                                                <option value="71">- - Camera &amp; Photo</option>
-                                                <option value="85">- - - - Digital Cameras</option>
-                                                <option value="86">- - - - Camcorders</option>
-                                                <option value="87">- - - - Camera Drones</option>
-                                                <option value="88">- - - - Action Cameras</option>
-                                                <option value="89">- - - - Photo Studio Supplies</option>
-                                                <option value="72">- - Portable Audio &amp; Video</option>
-                                                <option value="90">- - - - Headphones</option>
-                                                <option value="91">- - - - Speakers</option>
-                                                <option value="92">- - - - MP3 Players</option>
-                                                <option value="93">- - - - VR/AR Devices</option>
-                                                <option value="94">- - - - Microphones</option>
-                                                <option value="73">- - Smart Electronics</option>
-                                                <option value="95">- - - - Wearable Devices</option>
-                                                <option value="96">- - - - Smart Home Appliances</option>
-                                                <option value="97">- - - - Smart Remote Controls</option>
-                                                <option value="98">- - - - Smart Watches</option>
-                                                <option value="99">- - - - Smart Wristbands</option>
-                                                <option value="74">- - Video Games</option>
-                                                <option value="100">- - - - Handheld Game Players</option>
-                                                <option value="101">- - - - Game Controllers</option>
-                                                <option value="102">- - - - Joysticks</option>
-                                                <option value="103">- - - - Stickers</option>
-                                                <option value="104">Game Consoles</option>
-                                                <option value="105">Mp3 &amp; headphone</option>
-                                                <option value="106">Tv &amp; Video</option>
-                                                <option value="107">Watches</option>
-                                                <option value="108">Washing Machine</option>
-                                                <option value="109">Camera</option>
-                                                <option value="110">Audio &amp; Theater</option>
-                                                <option value="111">Accessories</option>
-                                                <option value="112">Games &amp; Consoles</option>
+                                            <select class="searchCategory">
+                                                <option>All categories</option>
+                                                @foreach (Category parent in categories)
+                                                {
+                                                    <option value="@parent.Id">@parent.Name</option>
+                                                    @foreach (Category child in parent.Children)
+                                                    {
+                                                        <option value="@child.Id">- - @child.Name</option>
+                                                    }
+                                                }
                                             </select>
                                         </div>
-                                        <input type="text" placeholder="Enter your search key ... ">
+                                        <input class="searchInput" type="text" placeholder="Enter your search key ... ">
                                         <button><i class="icon ion-android-search"></i></button>
                                     </form>
+                                    <ul class="searchResult">
+                                    </ul>
                                 </div>
                                 <div class="header-cart">
                                     <div class="cart-btn">
@@ -407,7 +314,8 @@
                         <div class="col-lg-9 position-static">
                             <div class="header-horizontal-menu">
                                 <ul class="menu-content">
-                                    <li class="active"><a href="#">Home <i class="fal fa-chevron-down"></i></a>
+                                    <li class="active">
+                                        <a href="#">Home <i class="fal fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="index.html">Home 01</a></li>
                                             <li><a href="index-2.html">Home 02</a></li>
@@ -416,7 +324,8 @@
                                         </ul>
                                     </li>
                                     <li><a href="about.html">About</a></li>
-                                    <li><a href="#">Pages <i class="fal fa-chevron-down"></i></a>
+                                    <li>
+                                        <a href="#">Pages <i class="fal fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="about.html">About</a></li>
                                             <li><a href="cart.html">cart</a></li>
@@ -428,7 +337,8 @@
                                             <li><a href="register.html">Register</a></li>
                                         </ul>
                                     </li>
-                                    <li class="position-static"><a href="#">Shop <i class="fal fa-chevron-down"></i></a>
+                                    <li class="position-static">
+                                        <a href="#">Shop <i class="fal fa-chevron-down"></i></a>
                                         <ul class="mega-sub-menu d-flex flex-wrap">
                                             <li>
                                                 <a class="menu-title" href="#">Shop Grid</a>
@@ -503,21 +413,25 @@
                                             </li>
                                         </ul> <!--  mega sub menu -->
                                     </li>
-                                    <li><a href="#">Blog <i class="fal fa-chevron-down"></i></a>
+                                    <li>
+                                        <a href="#">Blog <i class="fal fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="#">Blog Grid <i class="fal fa-chevron-right"></i></a>
+                                            <li>
+                                                <a href="#">Blog Grid <i class="fal fa-chevron-right"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="blog-grid-left-sidebar.html">Blog Grid Left Slider</a></li>
                                                     <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Slider</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Blog List <i class="fal fa-chevron-right"></i></a>
+                                            <li>
+                                                <a href="#">Blog List <i class="fal fa-chevron-right"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="blog-list-left-sidebar.html">Blog List Left Slider</a></li>
                                                     <li><a href="blog-list-right-sidebar.html">Blog List Right Slider</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Blog Single <i class="fal fa-chevron-right"></i></a>
+                                            <li>
+                                                <a href="#">Blog Single <i class="fal fa-chevron-right"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="blog-single-left-sidebar.html">Blog Single Left Slider</a></li>
                                                     <li><a href="blog-single-right-sidebar.html">Blog Single Right Slider</a></li>
@@ -781,7 +695,8 @@
 
                 <div class="mobile-main-menu">
                     <ul class="menu-content">
-                        <li class="menu-item-has-children active"><a href="#">Home <i class="fal fa-chevron-down"></i></a>
+                        <li class="menu-item-has-children active">
+                            <a href="#">Home <i class="fal fa-chevron-down"></i></a>
                             <ul class="sub-menu">
                                 <li><a href="index.html">Home 01</a></li>
                                 <li><a href="index-2.html">Home 02</a></li>
@@ -790,7 +705,8 @@
                             </ul>
                         </li>
                         <li><a href="about.html">About</a></li>
-                        <li class="menu-item-has-children"><a href="#">Pages <i class="fal fa-chevron-down"></i></a>
+                        <li class="menu-item-has-children">
+                            <a href="#">Pages <i class="fal fa-chevron-down"></i></a>
                             <ul class="sub-menu">
                                 <li><a href="about.html">About</a></li>
                                 <li><a href="cart.html">cart</a></li>
@@ -802,7 +718,8 @@
                                 <li><a href="register.html">Register</a></li>
                             </ul>
                         </li>
-                        <li class="menu-item-has-children"><a href="#">Shop <i class="fal fa-chevron-down"></i></a>
+                        <li class="menu-item-has-children">
+                            <a href="#">Shop <i class="fal fa-chevron-down"></i></a>
                             <ul class="mega-sub-menu">
                                 <li class="menu-item-has-children">
                                     <a class="menu-title" href="#">Shop Grid</a>
@@ -877,21 +794,25 @@
                                 </li>
                             </ul> <!--  mega sub menu -->
                         </li>
-                        <li class="menu-item-has-children"><a href="#">Blog <i class="fal fa-chevron-down"></i></a>
+                        <li class="menu-item-has-children">
+                            <a href="#">Blog <i class="fal fa-chevron-down"></i></a>
                             <ul class="sub-menu">
-                                <li  class="menu-item-has-children"><a href="#">Blog Grid <i class="fal fa-chevron-right"></i></a>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Blog Grid <i class="fal fa-chevron-right"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="blog-grid-left-sidebar.html">Blog Grid Left Slider</a></li>
                                         <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Slider</a></li>
                                     </ul>
                                 </li>
-                                <li  class="menu-item-has-children"><a href="#">Blog List <i class="fal fa-chevron-right"></i></a>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Blog List <i class="fal fa-chevron-right"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="blog-list-left-sidebar.html">Blog List Left Slider</a></li>
                                         <li><a href="blog-list-right-sidebar.html">Blog List Right Slider</a></li>
                                     </ul>
                                 </li>
-                                <li  class="menu-item-has-children"><a href="#">Blog Single <i class="fal fa-chevron-right"></i></a>
+                                <li class="menu-item-has-children">
+                                    <a href="#">Blog Single <i class="fal fa-chevron-right"></i></a>
                                     <ul class="sub-menu">
                                         <li><a href="blog-single-left-sidebar.html">Blog Single Left Slider</a></li>
                                         <li><a href="blog-single-right-sidebar.html">Blog Single Right Slider</a></li>
@@ -1049,7 +970,6 @@
     </div>
 
     <!--====== Brand Part Ends ======-->
-
     <!--====== Features Banner Part Start ======-->
 
     <section class="features-banner-area pt-80 pb-100">
@@ -1105,8 +1025,6 @@
     </section>
 
     <!--====== Features Banner Part Ends ======-->
-
-
     <!--====== Newsletter Part Start ======-->
 
     <section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(assets/images/bg-newletter.jpg)">
@@ -1130,7 +1048,6 @@
     </section>
 
     <!--====== Newsletter Part Ends ======-->
-
     <!--====== Footer Part Start ======-->
 
     <section class="footer-area bg_cover" style="background-image: url(assets/images/bg-footer.jpg)">
@@ -1215,26 +1132,18 @@
     </section>
 
     <!--====== Footer Part Ends ======-->
-
     <!--====== Quick View Part Start ======-->
-
     <!-- Modal -->
     <div class="modal fade " id="productQuickModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         </div> <!-- Modal dialog -->
     </div> <!-- Modal -->
-
     <!--====== Quick View Part Ends ======-->
-
     <!--====== BACK TOP TOP PART START ======-->
 
     <a href="#" class="back-to-top"><i class="ion-android-arrow-up"></i></a>
 
     <!--====== BACK TOP TOP PART ENDS ======-->
-
-
-
-
     <!--====== Vendors js ======-->
     <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="~/assets/js/vendor/modernizr-3.7.1.min.js"></script>
@@ -1248,17 +1157,14 @@
 
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
-
     <!-- <script src="~/assets/js/plugins.min.js"></script> -->
-    
-
     <!--====== Main Activation js ======-->
     <script src="~/assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js" integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/assets/js/custom.js"></script>
 
 
-    
+
 
 </body>
 

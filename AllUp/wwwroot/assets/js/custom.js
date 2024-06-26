@@ -1,6 +1,28 @@
 ﻿//===== slick Slider Product Quick View
 $(document).ready(function () {
 
+    const searchInput = document.querySelector(".searchInput");
+    const searchCategory = document.querySelector(".searchCategory");
+    const searchResult = document.querySelector(".searchResult");
+
+    searchCategory.addEventListener("change", e => {
+        searchResult.innerHTML = "";
+    })
+
+    searchInput.addEventListener("keyup", async e => {
+        const search = e.target.value;
+        searchResult.innerHTML = "";
+        if (search.length > 3) {
+            const { data } = await axios.get("/product/search", {
+                params: {
+                    categoryId: searchCategory.value,
+                    query: e.target.value,
+                }
+            })
+            searchResult.innerHTML = data;
+        }
+    })
+
     const productModalLinks = document.querySelectorAll(".productModal");
     productModalLinks.forEach(item => item.addEventListener("click", e => {
         e.preventDefault();

@@ -26,5 +26,38 @@ namespace AllUp.Controllers
             if (product == null) return NotFound();
             return PartialView("_ProductModal", product);
         }
+
+        public IActionResult Search(int? categoryId, string query)
+        {
+            if (categoryId != null && !_context.Categories.Any(c => c.Id == categoryId))
+            {
+                return BadRequest();
+            }
+
+            IEnumerable<Product> products = _context.Products
+                .Include(p => p.Brand)
+                .AsNoTracking()
+                .Where(p => !p.IsDeleted &&
+                categoryId != null ? p.CategoryId == categoryId : true &&
+                p.Name.ToLower().Contains(query.ToLower()) ||
+                p.Brand.Name.ToLower().Contains(query.ToLower())).AsEnumerable();
+
+            Console.WriteLine("PRODUCTS");
+            Console.WriteLine(products);
+
+
+            return PartialView("_SearchResult", products);
+        }
+
+        public IActionResult Detail(int? id)
+        {
+            if (id is null) return BadRequest();
+
+            Product? product = _context.Products.Include(p => p.ProductImages).Include(p => p.Brand).FirstOrDefault(p => !p.IsDeleted && p.Id == id);
+            if (product == null) return NotFound();
+            
+            return View(product);
+
+        }
     }
 }

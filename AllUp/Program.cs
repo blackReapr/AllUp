@@ -1,4 +1,5 @@
 using AllUp.Data;
+using AllUp.Interfaces;
 using AllUp.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ var config = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AllUpDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<LayoutService>();
+builder.Services.AddScoped<ILayoutService, LayoutService>();
 
 var app = builder.Build();
 
