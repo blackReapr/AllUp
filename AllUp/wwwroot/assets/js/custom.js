@@ -1,6 +1,18 @@
 ﻿//===== slick Slider Product Quick View
 $(document).ready(function () {
 
+    const addToCartBtns = document.querySelectorAll(".addToCart");
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener("click", async e => {
+            e.preventDefault();
+            const { data } = await axios.get("/cart/addcart/" + btn.dataset.id);
+            document.querySelectorAll(".header-cart").forEach(cart => cart.innerHTML = data);
+        })
+    })
+
+
+
+
     const searchInput = document.querySelector(".searchInput");
     const searchCategory = document.querySelector(".searchCategory");
     const searchResult = document.querySelector(".searchResult");

@@ -1,4 +1,5 @@
 ﻿using AllUp.Models;
+using AllUp.ViewModels;
 
 namespace AllUp.Interfaces
 {
@@ -6,5 +7,6 @@ namespace AllUp.Interfaces
     {
         Task<IDictionary<string, string>> GetSettingsAsync();
         Task<IEnumerable<Category>> GetCategoriesAsync();
+        IEnumerable<CartVM> GetCart();
     }
 }

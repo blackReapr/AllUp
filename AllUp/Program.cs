@@ -9,6 +9,8 @@ var config = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AllUpDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILayoutService, LayoutService>();
 
 var app = builder.Build();
