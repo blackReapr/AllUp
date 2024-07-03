@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CartVM>
 <div class="cart-btn">
-    <a href="#">
+    <a href="/cart/index">
         <i class="icon ion-bag"></i>
         <span class="text">Cart :</span>
         <span class="total">$@String.Format("{0:0.00}", Model.Sum(p => p.Price * p.Count + p.ExTax))</span>
@@ -48,10 +48,4 @@
 </div>
 
 
-<script>
-    // Remove Product From Cart
-    const removeProductFromCart = async id => {
-        const { data } = await axios.get("/cart/removeproduct/" + id);
-        document.querySelectorAll(".header-cart").forEach(cart => cart.innerHTML = data);
-    }
-</script>
+<script src="~/assets/js/removeProductFromCart.js"></script>

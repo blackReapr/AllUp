@@ -16,6 +16,11 @@ public class CartController : Controller
         _context = context;
     }
 
+    public IActionResult Index()
+    {
+        return View();
+    }
+
     public async Task<IActionResult> AddCartAsync(int? id)
     {
         if (id == null) return BadRequest();
@@ -36,7 +41,15 @@ public class CartController : Controller
             }
             else
             {
-                cart.Add(new() { Id = product.Id, Count = 1, ExTax = product.ExTax, Image = product.MainImage, Name = product.Name, Price = product.Price });
+                cart.Add(new()
+                {
+                    Id = product.Id,
+                    Count = 1,
+                    ExTax = product.ExTax,
+                    Image = product.MainImage,
+                    Name = product.Name,
+                    Price = product.DiscountPrice > 0 ? product.DiscountPrice : product.Price
+                });
             }
         }
         HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
@@ -56,6 +69,6 @@ public class CartController : Controller
         cart.Remove(existProduct);
 
         HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
-        return PartialView("_CartPartial", cart);
+        return Json(cart);
     }
 }
