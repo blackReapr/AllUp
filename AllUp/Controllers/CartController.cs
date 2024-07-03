@@ -96,7 +96,12 @@ public class CartController : Controller
         CartVM? existProduct = cart.FirstOrDefault(p => p.Id == id);
 
         if (existProduct is null) return BadRequest();
-        existProduct.Count--;
+        if (existProduct.Count > 1)
+            existProduct.Count--;
+        else
+        {
+            cart.Remove(existProduct);
+        }
 
         HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
         return Json(cart);
