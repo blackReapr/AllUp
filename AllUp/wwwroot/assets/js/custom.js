@@ -1,6 +1,7 @@
 ﻿//===== slick Slider Product Quick View
 $(document).ready(function () {
 
+    // Add To Cart
     const addToCartBtns = document.querySelectorAll(".addToCart");
     addToCartBtns.forEach(btn => {
         btn.addEventListener("click", async e => {
@@ -13,6 +14,7 @@ $(document).ready(function () {
 
 
 
+    // Search
     const searchInput = document.querySelector(".searchInput");
     const searchCategory = document.querySelector(".searchCategory");
     const searchResult = document.querySelector(".searchResult");
@@ -35,6 +37,7 @@ $(document).ready(function () {
         }
     })
 
+    // Product Modal
     const productModalLinks = document.querySelectorAll(".productModal");
     productModalLinks.forEach(item => item.addEventListener("click", e => {
         e.preventDefault();
