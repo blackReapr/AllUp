@@ -61,9 +61,9 @@
                                         <td>
                                             <div class="product-quantity">
                                                 <div class="quantity mt-15 d-flex">
-                                                    <button type="button" class="sub"><i class="fal fa-minus"></i></button>
+                                                    <button onclick="decrease(@product.Id)" type="button" class="sub"><i class="fal fa-minus"></i></button>
                                                     <input type="text" value="1" />
-                                                    <button type="button" class="add"><i class="fal fa-plus"></i></button>
+                                                    <button onclick="increase(@product.Id)" type="button" class="add"><i class="fal fa-plus"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -106,17 +106,17 @@
                             <div class="sub-total">
                                 <div class="single-total">
                                     <span class="cart-value">Subtotal</span>
-                                    <span class="cart-amount">€@cart.Sum(p => p.Price * p.Count)</span>
+                                    <span class="cart-amount subtotal">€@cart.Sum(p => p.Price * p.Count)</span>
                                 </div>
                             </div>
                             <div class="total">
                                 <div class="single-total">
                                     <span class="cart-value">Total (tax excl.)</span>
-                                    <span class="cart-amount">€@cart.Sum(p => p.Price * p.Count + p.ExTax)</span>
+                                    <span class="cart-amount totalTaxIncl">€@cart.Sum(p => p.Price * p.Count + p.ExTax)</span>
                                 </div>
                                 <div class="single-total">
                                     <span class="cart-value">Taxes</span>
-                                    <span class="cart-amount">€@cart.Sum(p => p.ExTax)</span>
+                                    <span class="cart-amount totalTax">€@cart.Sum(p => p.ExTax)</span>
                                 </div>
                             </div>
                             <div class="cart-total-btn text-right">
@@ -132,4 +132,4 @@
 
 <!--====== Cart Part Ends ======-->
 
-<script src="~/assets/js/cartPageRemoveProduct.js"></script>
+<script src="~/assets/js/cartPage.js"></script>

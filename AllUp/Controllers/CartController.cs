@@ -71,4 +71,34 @@ public class CartController : Controller
         HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
         return Json(cart);
     }
+
+    public IActionResult Increase(int? id)
+    {
+        if (id is null) return BadRequest();
+        if (HttpContext.Request.Cookies["cart"] is null) return BadRequest();
+
+        List<CartVM> cart = JsonSerializer.Deserialize<List<CartVM>>(HttpContext.Request.Cookies["cart"]);
+        CartVM? existProduct = cart.FirstOrDefault(p => p.Id == id);
+
+        if (existProduct is null) return BadRequest();
+        existProduct.Count++;
+
+        HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
+        return Json(cart);
+    }
+
+    public IActionResult Decrease(int? id)
+    {
+        if (id is null) return BadRequest();
+        if (HttpContext.Request.Cookies["cart"] is null) return BadRequest();
+
+        List<CartVM> cart = JsonSerializer.Deserialize<List<CartVM>>(HttpContext.Request.Cookies["cart"]);
+        CartVM? existProduct = cart.FirstOrDefault(p => p.Id == id);
+
+        if (existProduct is null) return BadRequest();
+        existProduct.Count--;
+
+        HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
+        return Json(cart);
+    }
 }
