@@ -30,9 +30,6 @@ namespace AllUp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -44,14 +41,13 @@ namespace AllUp.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.ToTable("Brands");
                 });
@@ -289,13 +285,6 @@ namespace AllUp.Data.Migrations
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("AllUp.Models.Brand", b =>
-                {
-                    b.HasOne("AllUp.Models.Brand", null)
-                        .WithMany("Brands")
-                        .HasForeignKey("BrandId");
-                });
-
             modelBuilder.Entity("AllUp.Models.Category", b =>
                 {
                     b.HasOne("AllUp.Models.Category", "Parent")
@@ -308,7 +297,7 @@ namespace AllUp.Data.Migrations
             modelBuilder.Entity("AllUp.Models.Product", b =>
                 {
                     b.HasOne("AllUp.Models.Brand", "Brand")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("BrandId");
 
                     b.HasOne("AllUp.Models.Category", "Category")
@@ -333,7 +322,7 @@ namespace AllUp.Data.Migrations
 
             modelBuilder.Entity("AllUp.Models.Brand", b =>
                 {
-                    b.Navigation("Brands");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("AllUp.Models.Category", b =>
