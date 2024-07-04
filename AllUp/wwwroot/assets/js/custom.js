@@ -1,6 +1,21 @@
 ﻿//===== slick Slider Product Quick View
 $(document).ready(function () {
 
+    // Create category
+    const isMain = document.querySelector("#IsMain");
+    const fileInput = document.querySelector("#fileInput");
+    const parentId = document.querySelector("#parentId");
+
+    isMain.addEventListener("change", e => {
+        if (e.currentTarget.checked) {
+            fileInput.classList.remove("d-none");
+            parentId.classList.add("d-none");
+        } else {
+            fileInput.classList.add("d-none");
+            parentId.classList.remove("d-none");
+        }
+    })
+
     // Add To Cart
     const addToCartBtns = document.querySelectorAll(".addToCart");
     addToCartBtns.forEach(btn => {

@@ -2,7 +2,6 @@
 using AllUp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace AllUp.Areas.Manage.Controllers;
 
