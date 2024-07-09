@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AllUp.Models;
 
-public class Product:BaseEntity
+public class Product : BaseEntity
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -27,4 +27,6 @@ public class Product:BaseEntity
     public int? CategoryId { get; set; }
     public Category Category { get; set; }
     public List<ProductImage> ProductImages { get; set; }
+    [NotMapped]
+    public IFormFile Photo { get; set; }
 }
