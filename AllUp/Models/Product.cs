@@ -20,13 +20,19 @@ public class Product : BaseEntity
     public string Code { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     public decimal ExTax { get; set; }
-    public string MainImage { get; set; }
-    public string HoverImage { get; set; }
+    public string? MainImage { get; set; }
+    public string? HoverImage { get; set; }
     public int? BrandId { get; set; }
-    public Brand Brand { get; set; }
+    public Brand? Brand { get; set; }
     public int? CategoryId { get; set; }
-    public Category Category { get; set; }
-    public List<ProductImage> ProductImages { get; set; }
+    public Category? Category { get; set; }
+    public List<ProductImage>? ProductImages { get; set; }
     [NotMapped]
-    public IFormFile Photo { get; set; }
+    public IFormFile? MainPhoto { get; set; }
+    [NotMapped]
+    public IFormFile? HoverPhoto { get; set; }
+    [NotMapped]
+    public IFormFile[]? Photos { get; set; }
+    public List<ProductTag>? ProductTags { get; set; }
+    public List<int>? TagIds { get; set; }
 }

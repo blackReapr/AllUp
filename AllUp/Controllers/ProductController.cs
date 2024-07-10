@@ -49,7 +49,7 @@ namespace AllUp.Controllers
         {
             if (id is null) return BadRequest();
 
-            Product? product = _context.Products.Include(p => p.ProductImages).Include(p => p.Brand).FirstOrDefault(p => !p.IsDeleted && p.Id == id);
+            Product? product = _context.Products.Include(p => p.ProductTags).ThenInclude(pt => pt.Tag).Include(p => p.ProductImages).Include(p => p.Brand).FirstOrDefault(p => !p.IsDeleted && p.Id == id);
             if (product == null) return NotFound();
 
             return View(product);

@@ -31,118 +31,119 @@
                     <div class="tags d-flex">
                         <span class="tag-title">Tags:</span>
                         <ul class="tag-list media-body">
-                            <li><a href="#">drone,</a></li>
-                            <li><a href="#">camera</a></li>
+                            @foreach (var productTag in Model.ProductTags)
+                            {
+                                <li><a href="#">@productTag.Tag.Name</a></li>
+                            }
                         </ul>
                     </div>
                     <h2 class="product-title">@Model.Name</h2>
-                            <div class="review-rating d-flex flex-wrap">
-                                <ul class="rating">
-                                    <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    <li class="rating-on"><i class="fas fa-star"></i></li>
-                                </ul>
-                                <ul class="review-link">
-                                    <li><a href="#">(1 Review)</a></li>
-                                    <li><a href="#">Write A Review</a></li>
-                                </ul>
-                            </div>
-                            <div class="product-price">
-                                @if (Model.DiscountPrice > 0)
-                                {
-                                    <span class="price-sale">€@Model.Price</span>
-                                    <span class="regular-price">€@Model.DiscountPrice</span>
-                                }
-                                else
-                                {
-                                    <span class="regular-price">€@Model.DiscountPrice</span>
+                    <div class="review-rating d-flex flex-wrap">
+                        <ul class="rating">
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul class="review-link">
+                            <li><a href="#">(1 Review)</a></li>
+                            <li><a href="#">Write A Review</a></li>
+                        </ul>
+                    </div>
+                    <div class="product-price">
+                        @if (Model.DiscountPrice > 0)
+                        {
+                            <span class="price-sale">€@Model.Price</span>
+                            <span class="regular-price">€@Model.DiscountPrice</span>
+                        }
+                        else
+                        {
+                            <span class="regular-price">€@Model.DiscountPrice</span>
 
-                                }
+                        }
+                    </div>
+                    <div class="product-basic-info">
+                        <div class="single-info">
+                            <span class="title">Ex Tax :</span>
+                            <span class="value">€@Model.ExTax</span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title">Brand :</span>
+                            <span class="value"><a href="#">@Model.Brand.Name</a></span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title"> Product Code :</span>
+                            <span class="value">@Model.Code@Model.Seria</span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title"> Availability :</span>
+                            <span class="value">@(Model.Count > 0 ? "In stock" : "Out of stock")</span>
+                        </div>
+                    </div>
+                    <p>@Model.Description</p>
+                    <div class="product-size-color-quantity">
+                        <div class="product-quantity mt-25">
+                            <h5 class="title">Quantity</h5>
+                            <div class="quantity mt-15 d-flex">
+                                <button type="button" class="sub"><i class="fal fa-minus"></i></button>
+                                <input type="text" value="1" />
+                                <button type="button" class="add"><i class="fal fa-plus"></i></button>
                             </div>
-                            <div class="product-basic-info">
-                                <div class="single-info">
-                                    <span class="title">Ex Tax :</span>
-                                    <span class="value">€@Model.ExTax</span>
-                                </div>
-                                <div class="single-info">
-                                    <span class="title">Brand :</span>
-                                    <span class="value"><a href="#">@Model.Brand.Name</a></span>
-                                </div>
-                                <div class="single-info">
-                                    <span class="title"> Product Code :</span>
-                                    <span class="value">@Model.Code@Model.Seria</span>
-                                </div>
-                                <div class="single-info">
-                                    <span class="title"> Availability :</span>
-                                    <span class="value">In stock </span>
-                                </div>
-                            </div>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur inventore voluptatem dignissimos nemo repellendus est, harum maiores veritatis quidem.</p>
-
-                            <div class="product-size-color-quantity">
-                                <div class="product-quantity mt-25">
-                                    <h5 class="title">Quantity</h5>
-                                    <div class="quantity mt-15 d-flex">
-                                        <button type="button" class="sub"><i class="fal fa-minus"></i></button>
-                                        <input type="text" value="1" />
-                                        <button type="button" class="add"><i class="fal fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="addcart">
+                        <button><i class="icon ion-bag"></i> Add to cart</button>
+                    </div>
+                    <div class="product-wishlist-compare">
+                        <ul class="d-flex flex-wrap">
+                            <li><a href="#"><i class="fal fa-heart"></i> Add to wishlist</a></li>
+                            <li><a href="#"><i class="fal fa-repeat"></i> Add to compare</a></li>
+                        </ul>
+                    </div>
+                    <div class="product-share d-flex">
+                        <p>Share</p>
+                        <ul class="social media-body">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google"></i></a></li>
+                            <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="reassurance-block">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/assets/images/icon-1.png" alt="icon">
+                                    </div>
+                                    <div class="reassurance media-body">
+                                        <p>Security policy (edit with Customer reassurance module)</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="addcart">
-                                <button><i class="icon ion-bag"></i> Add to cart</button>
-                            </div>
-                            <div class="product-wishlist-compare">
-                                <ul class="d-flex flex-wrap">
-                                    <li><a href="#"><i class="fal fa-heart"></i> Add to wishlist</a></li>
-                                    <li><a href="#"><i class="fal fa-repeat"></i> Add to compare</a></li>
-                                </ul>
-                            </div>
-                            <div class="product-share d-flex">
-                                <p>Share</p>
-                                <ul class="social media-body">
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-google"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="reassurance-block">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="single-reassurance d-flex">
-                                            <div class="reassurance-icon">
-                                                <img src="~/assets/images/icon-1.png" alt="icon">
-                                            </div>
-                                            <div class="reassurance media-body">
-                                                <p>Security policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </div>
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/assets/images/icon-2.png" alt="icon">
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="single-reassurance d-flex">
-                                            <div class="reassurance-icon">
-                                                <img src="~/assets/images/icon-2.png" alt="icon">
-                                            </div>
-                                            <div class="reassurance media-body">
-                                                <p>Delivery policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="single-reassurance d-flex">
-                                            <div class="reassurance-icon">
-                                                <img src="~/assets/images/icon-3.png" alt="icon">
-                                            </div>
-                                            <div class="reassurance media-body">
-                                                <p>Return policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </div>
+                                    <div class="reassurance media-body">
+                                        <p>Delivery policy (edit with Customer reassurance module)</p>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/assets/images/icon-3.png" alt="icon">
+                                    </div>
+                                    <div class="reassurance media-body">
+                                        <p>Return policy (edit with Customer reassurance module)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div> <!-- single product content -->
             </div>
         </div> <!-- row -->
@@ -165,7 +166,7 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                 <div class="description">
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. <br> <br> Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.</p>
+                    <p>@Model.Description</p>
                 </div> <!-- Description -->
             </div>
             <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
