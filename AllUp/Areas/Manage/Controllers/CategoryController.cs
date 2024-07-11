@@ -1,6 +1,7 @@
 ﻿using AllUp.Data;
 using AllUp.Extensions;
 using AllUp.Models;
+using AllUp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,10 @@ public class CategoryController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        IEnumerable<Category> categories = await _context.Categories.Include(c => c.Products).Where(c => !c.IsDeleted && c.IsMain).ToListAsync();
-        return View(categories);
+        IQueryable<Category> query = _context.Categories.Include(c => c.Products).Where(c => !c.IsDeleted && c.IsMain);
+        return View(await PaginationVM<Category>.CreateAsync(query, page, 2));
     }
 
     public async Task<IActionResult> SubCategoryIndex()

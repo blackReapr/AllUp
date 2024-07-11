@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model PaginationVM<Category>
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Main Categories Table</h1>
 
@@ -45,4 +45,5 @@
             </table>
         </div>
     </div>
+    @await Html.PartialAsync("_PaginationPartial")
 </div>

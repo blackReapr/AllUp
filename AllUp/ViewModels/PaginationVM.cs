@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AllUp.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace AllUp.ViewModels;
 
-public class PaginationVM<T> : List<T>
+public class PaginationVM<T> : List<T>, IPaginationVM
 {
     public PaginationVM(IEnumerable<T> items, int page, int count)
     {
