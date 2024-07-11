@@ -1,5 +1,6 @@
 ﻿using AllUp.Data;
 using AllUp.Models;
+using AllUp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,10 @@ public class BrandController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        IEnumerable<Brand> brands = await _context.Brands.AsNoTracking().Include(b => b.Products.Where(p => !p.IsDeleted)).Where(b => !b.IsDeleted).ToListAsync();
-        return View(brands);
+        IQueryable<Brand> query = _context.Brands.AsNoTracking().Include(b => b.Products.Where(p => !p.IsDeleted)).Where(b => !b.IsDeleted);
+        return View(await PaginationVM<Brand>.CreateAsync(query, page, 2));
     }
 
     public async Task<IActionResult> Detail(int? id)

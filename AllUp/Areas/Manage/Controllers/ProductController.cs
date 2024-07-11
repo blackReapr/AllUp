@@ -1,10 +1,9 @@
 ﻿using AllUp.Data;
 using AllUp.Extensions;
 using AllUp.Models;
+using AllUp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing;
-using System.IO;
 
 namespace AllUp.Areas.Manage.Controllers;
 
@@ -18,10 +17,10 @@ public class ProductController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        IEnumerable<Product> products = await _context.Products.AsNoTracking().Include(p => p.Category).Include(p => p.Brand).Where(p => !p.IsDeleted).ToListAsync();
-        return View(products);
+        IQueryable<Product> query = _context.Products.AsNoTracking().Include(p => p.Category).Include(p => p.Brand).Where(p => !p.IsDeleted);
+        return View(await PaginationVM<Product>.CreateAsync(query, page));
     }
 
     public async Task<IActionResult> Create()
