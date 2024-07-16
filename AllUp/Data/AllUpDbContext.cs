@@ -1,9 +1,10 @@
 ﻿using AllUp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AllUp.Data;
 
-public class AllUpDbContext : DbContext
+public class AllUpDbContext : IdentityDbContext<AppUser>
 {
     public DbSet<Setting> Settings { get; set; }
     public DbSet<Slider> Sliders { get; set; }

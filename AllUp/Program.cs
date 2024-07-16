@@ -1,17 +1,10 @@
-using AllUp.Data;
-using AllUp.Interfaces;
-using AllUp.Services;
-using Microsoft.EntityFrameworkCore;
+using AllUp;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AllUpDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ILayoutService, LayoutService>();
+builder.Services.Register(config);
 
 var app = builder.Build();
 
@@ -24,6 +17,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 
