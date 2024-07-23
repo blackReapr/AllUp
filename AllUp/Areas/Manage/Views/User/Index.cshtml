@@ -34,6 +34,7 @@
                                 <a class="btn btn-secondary" href="/manage/user/detail/@user.Id">detail</a>
                                 @if (User.Identity.Name != user.UserName)
                                 {
+                                    <a class="btn btn-secondary" href="/manage/user/changeroles/@user.Id">change roles</a>
                                     <a class="btn btn-secondary" href="/manage/user/delete/@user.Id">delete</a>
                                     <a class="btn btn-secondary" href="/manage/user/changestatus/@user.Id">@(user.IsBlocked ? "unblock" : "block")</a>
                                 }

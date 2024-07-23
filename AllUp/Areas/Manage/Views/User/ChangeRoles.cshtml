@@ -1,0 +1,13 @@
+﻿@model IEnumerable<string>
+
+<form method="post">
+    <div class="flex col lg-6">
+        @foreach(IdentityRole role in ViewBag.Roles)
+        {
+            <label>@role.Name</label>
+            <input type="checkbox" name="newUserRoles" value="@role.Name" @(Model.Contains(role.Name) ? "checked" : "")>
+        }
+    </div>
+    <div class="text-danger">@Html.ValidationSummary()</div>
+    <button type="submit" class="btn btn-success">Update roles</button>
+</form>

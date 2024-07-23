@@ -16,12 +16,15 @@ public static class ServiceRegistration
         services.AddSession();
         services.AddHttpContextAccessor();
         services.AddScoped<ILayoutService, LayoutService>();
+        services.AddScoped<IEmailService, EmailService>();
         services.AddIdentity<AppUser, IdentityRole>(options =>
         {
             options.Password.RequiredLength = 7;
             options.User.RequireUniqueEmail = true;
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             options.Lockout.MaxFailedAccessAttempts = 3;
+            options.SignIn.RequireConfirmedEmail = true;
         }).AddEntityFrameworkStores<AllUpDbContext>().AddDefaultTokenProviders();
+        services.AddSignalR();
     }
 }

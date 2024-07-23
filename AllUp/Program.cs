@@ -1,4 +1,5 @@
 using AllUp;
+using AllUp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -19,6 +20,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapHub<ChatHub>("/chat");
 
 
 app.MapControllerRoute(

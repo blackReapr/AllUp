@@ -11,7 +11,6 @@ public class NewUserVM
     [EmailAddress]
     [DataType(DataType.EmailAddress)]
     public required string Email { get; set; }
-    public required string RoleName { get; set; }
     [DataType(DataType.Password)]
     public string? Password { get; set; }
     [Compare(nameof(Password)), DataType(DataType.Password), Display(Name = "Confirm Password")]

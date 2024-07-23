@@ -48,13 +48,6 @@ public class UserController : Controller
         ViewBag.Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
         if (!ModelState.IsValid) return View(newUser);
 
-        bool roleExist = await _roleManager.RoleExistsAsync(newUser.RoleName);
-
-        if (!roleExist)
-        {
-            ModelState.AddModelError("RoleName", "Invalid role.");
-            return View(newUser);
-        }
         AppUser user = new() { Fullname = newUser.Fullname, Email = newUser.Email, UserName = newUser.Username };
         IdentityResult result = await _userManager.CreateAsync(user);
         if (!result.Succeeded)
@@ -65,7 +58,7 @@ public class UserController : Controller
             }
             return View(newUser);
         }
-        await _userManager.AddToRoleAsync(user, newUser.RoleName);
+        await _userManager.AddToRoleAsync(user, "member");
         return RedirectToAction(nameof(Index));
     }
 
@@ -75,7 +68,7 @@ public class UserController : Controller
         AppUser? user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
         ViewBag.Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
-        NewUserVM userVM = new() { Email = user.Email, Fullname = user.Fullname, RoleName = (await _userManager.GetRolesAsync(user))[0], Username = user.UserName };
+        NewUserVM userVM = new() { Email = user.Email, Fullname = user.Fullname, Username = user.UserName };
         return View(userVM);
     }
 
@@ -93,11 +86,6 @@ public class UserController : Controller
             ModelState.AddModelError("RePassword", "Passwords do not match");
             return View(userVM);
         }
-        if (!await _roleManager.RoleExistsAsync(userVM.RoleName))
-        {
-            ModelState.AddModelError("RoleName", "Invalid role");
-            return View(userVM);
-        }
         if (userVM.Password is not null)
         {
 
@@ -112,9 +100,6 @@ public class UserController : Controller
         user.Email = userVM.Email;
         user.Fullname = userVM.Fullname;
         await _userManager.UpdateAsync(user);
-        await _userManager.UpdateAsync(user);
-        await _userManager.RemoveFromRoleAsync(user, (await _userManager.GetRolesAsync(user))[0]);
-        await _userManager.AddToRoleAsync(user, userVM.RoleName);
         return RedirectToAction(nameof(Index));
     }
 
@@ -133,5 +118,40 @@ public class UserController : Controller
         AppUser? user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
         return View(user);
+    }
+
+    public async Task<IActionResult> ChangeRoles(string? id)
+    {
+        ViewBag.Roles = await _roleManager.Roles.ToListAsync();
+        if (id is null) return BadRequest();
+        AppUser? user = await _userManager.FindByIdAsync(id);
+        if (user == null) return NotFound();
+        IEnumerable<string> userRoles = await _userManager.GetRolesAsync(user);
+        return View(userRoles);
+    }
+
+    [HttpPost, AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> ChangeRoles(string? id, IEnumerable<string> newUserRoles)
+    {
+        ViewBag.Roles = await _roleManager.Roles.ToListAsync();
+        if (id is null) return BadRequest();
+        AppUser? user = await _userManager.FindByIdAsync(id);
+        if (user == null) return NotFound();
+        if (newUserRoles.Count() == 0)
+        {
+            ModelState.AddModelError("", "User must have at least one role");
+            return View(newUserRoles);
+        }
+        foreach (string role in newUserRoles)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                ModelState.AddModelError("", "Invalid role");
+                return View(newUserRoles);
+            }
+        }
+        await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+        await _userManager.AddToRolesAsync(user, newUserRoles);
+        return RedirectToAction("Index");
     }
 }
