@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using AllUp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AllUp.Controllers;
 
 public class ChatController : Controller
 {
-    private readonly IHubContext _hubContext;
+    private readonly UserManager<AppUser> _userManager;
 
-    public ChatController(IHubContext hubContext)
+    public ChatController(UserManager<AppUser> userManager)
     {
-        _hubContext = hubContext;
+        _userManager = userManager;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        ViewBag.Users = await _userManager.Users.ToListAsync();
         return View();
     }
 }

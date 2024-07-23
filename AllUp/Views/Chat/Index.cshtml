@@ -1,14 +1,50 @@
-﻿<div class="col-6">
-    <form>
-        <label>Username</label>
-        <input type="text" />
-        <label>Message</label>
-        <input type="text" />
-        <button type="submit">Send All</button>
-    </form>
+﻿<div class="container">
+    <div class="row">
+
+
+        <div class="col-6">
+            <label>Username</label>
+            <input id="username" type="text" />
+            <label>Message</label>
+            <input id="message" type="text" />
+            <button id="sendAll" type="submit">Send All</button>
+            <ul id="messageBox">
+            </ul>
+        </div>
+
+        <div class="col-6">
+            <ul class="users">
+                @foreach (AppUser user in ViewBag.Users)
+                {
+                    <li id="@user.Id" class="@(user.ConnectionId != null ? "text-success" : "text-danger")">@user.UserName</li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    console.log(connection);
+    const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    connection.start();
+    document.getElementById("sendAll").addEventListener("click", () => {
+        const username = document.getElementById("username").value;
+        const message = document.getElementById("message").value;
+        connection.invoke("SendAll", message, username);
+    })
+    connection.on("newMessage", (message, username) => {
+        console.log(username);
+        const item = `<li>${username} said: ${message}</li>`
+        document.getElementById("messageBox").innerHTML += item;
+    })
+
+    connection.on("userConnected", userId => {
+        document.getElementById(userId).classList.add("text-success");
+        document.getElementById(userId).classList.remove("text-danger");
+    })
+
+    connection.on("userDisconnected", userId => {
+        document.getElementById(userId).classList.remove("text-success");
+        document.getElementById(userId).classList.add("text-danger");
+    })
 </script>

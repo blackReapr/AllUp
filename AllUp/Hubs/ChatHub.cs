@@ -1,19 +1,50 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using AllUp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AllUp.Hubs;
 
 public class ChatHub : Hub
 {
-    public async Task SendAll(string message)
+    private readonly UserManager<AppUser> _userManager;
+
+    public ChatHub(UserManager<AppUser> userManager)
     {
-        await Clients.All.SendAsync(message);
+        _userManager = userManager;
+    }
+
+    public async Task SendAll(string message, string username)
+    {
+        await Clients.All.SendAsync("newMessage", message, username);
     }
     public async Task Send(string userId, string message)
     {
         await Clients.Client(userId).SendAsync(message);
     }
-    public async Task Send(IEnumerable<string> userIds, string message)
+    public override Task OnConnectedAsync()
     {
-        await Clients.Clients(userIds).SendAsync(message);
+        if (Context.User.Identity.IsAuthenticated)
+        {
+            AppUser? user = _userManager.FindByNameAsync(Context.User.Identity.Name).Result;
+            if (user != null)
+            {
+                user.ConnectionId = Context.ConnectionId;
+                Clients.All.SendAsync("userConnected", user.Id).Wait();
+            }
+        }
+        return base.OnConnectedAsync();
+    }
+    public override Task OnDisconnectedAsync(Exception? exception)
+    {
+        if (Context.User.Identity.IsAuthenticated)
+        {
+            AppUser? user = _userManager.FindByNameAsync(Context.User.Identity.Name).Result;
+            if (user != null)
+            {
+                user.ConnectionId = null;
+                Clients.All.SendAsync("userDisconnected", user.Id).Wait();
+            }
+        }
+        return base.OnDisconnectedAsync(exception);
     }
 }

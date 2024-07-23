@@ -1,5 +1,5 @@
-﻿using AllUp.Models;
-using AllUp.Services;
+﻿using AllUp.Interfaces;
+using AllUp.Models;
 using AllUp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +13,9 @@ public class AccountController : Controller
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly EmailService _emailService;
+    private readonly IEmailService _emailService;
 
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, EmailService emailService)
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IEmailService emailService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -95,7 +95,7 @@ public class AccountController : Controller
             ModelState.AddModelError("", "Username or password is wrong.");
             return View(loginVM);
         }
-        if (doesPasswordMatch && user.IsBlocked)
+        if (user.IsBlocked)
         {
             ModelState.AddModelError("", "User is blocked.");
             return View(loginVM);
@@ -108,7 +108,7 @@ public class AccountController : Controller
         }
         if (!result.Succeeded)
         {
-            ModelState.AddModelError("", "User not found");
+            ModelState.AddModelError("", "Verify email.");
             return View(loginVM);
         }
         if (returnUrl is null)
