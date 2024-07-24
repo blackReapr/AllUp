@@ -3,6 +3,8 @@ using AllUp.Models;
 using AllUp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 
 
@@ -79,10 +81,10 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(LoginVM loginVM, string? returnUrl)
     {
         if (!ModelState.IsValid) return View(loginVM);
-        AppUser? user = await _userManager.FindByEmailAsync(loginVM.UsernameOrEmail);
+        AppUser? user = await _userManager.Users.Include(u => u.Baskets.Where(b => !b.IsDeleted)).ThenInclude(b => b.Product).FirstOrDefaultAsync(u => u.NormalizedEmail == loginVM.UsernameOrEmail.ToUpperInvariant());
         if (user == null)
         {
-            user = await _userManager.FindByNameAsync(loginVM.UsernameOrEmail);
+            user = await _userManager.Users.Include(u => u.Baskets.Where(b => !b.IsDeleted)).ThenInclude(b => b.Product).FirstOrDefaultAsync(u => u.NormalizedUserName == loginVM.UsernameOrEmail.ToUpperInvariant());
             if (user == null)
             {
                 ModelState.AddModelError("", "User not found");
@@ -111,6 +113,24 @@ public class AccountController : Controller
             ModelState.AddModelError("", "Verify email.");
             return View(loginVM);
         }
+        Response.Cookies.Append("cart", "");
+        if (user.Baskets != null && user.Baskets.Count > 0)
+        {
+            List<CartVM> cart = new();
+            foreach (var basket in user.Baskets)
+            {
+                CartVM cartVM = new();
+                cartVM.Id = basket.ProductId;
+                cartVM.Price = basket.Product.DiscountPrice > 0 ? basket.Product.DiscountPrice : basket.Product.Price;
+                cartVM.Count = basket.Count;
+                cartVM.ExTax = basket.Product.ExTax;
+                cartVM.Image = basket.Product.MainImage;
+                cartVM.Name = basket.Product.Name;
+                cart.Add(cartVM);
+            }
+            Response.Cookies.Append("cart", JsonConvert.SerializeObject(cart));
+        }
+
         if (returnUrl is null)
             return RedirectToAction("Index", "Home");
         return Redirect(returnUrl);

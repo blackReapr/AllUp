@@ -4,6 +4,7 @@ using AllUp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllUp.Data.Migrations
 {
     [DbContext(typeof(AllUpDbContext))]
-    partial class AllUpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724081509_addCountFieldToBasket")]
+    partial class addCountFieldToBasket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,7 +136,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Baskets", (string)null);
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("AllUp.Models.Brand", b =>
@@ -163,7 +166,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("AllUp.Models.Category", b =>
@@ -204,7 +207,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("AllUp.Models.Product", b =>
@@ -284,7 +287,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("AllUp.Models.ProductImage", b =>
@@ -318,7 +321,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("AllUp.Models.ProductTag", b =>
@@ -353,7 +356,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ProductTags", (string)null);
+                    b.ToTable("ProductTags");
                 });
 
             modelBuilder.Entity("AllUp.Models.Setting", b =>
@@ -387,7 +390,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings", (string)null);
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("AllUp.Models.Slider", b =>
@@ -432,7 +435,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("AllUp.Models.Tag", b =>
@@ -461,7 +464,7 @@ namespace AllUp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

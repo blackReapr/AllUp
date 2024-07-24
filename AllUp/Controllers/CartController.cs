@@ -1,5 +1,7 @@
 ﻿using AllUp.Data;
+using AllUp.Models;
 using AllUp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +12,12 @@ namespace AllUp.Controllers;
 public class CartController : Controller
 {
     private readonly AllUpDbContext _context;
+    private readonly UserManager<AppUser> _userManager;
 
-    public CartController(AllUpDbContext context)
+    public CartController(AllUpDbContext context, UserManager<AppUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -51,6 +55,23 @@ public class CartController : Controller
                     Price = product.DiscountPrice > 0 ? product.DiscountPrice : product.Price
                 });
             }
+        }
+
+        if (User.Identity.IsAuthenticated)
+        {
+            AppUser? user = await _userManager.Users.Include(u => u.Baskets.Where(b => !b.IsDeleted)).FirstOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpperInvariant());
+            if (user == null) return BadRequest();
+            if (user.Baskets.Any(b => !b.IsDeleted && b.ProductId == id))
+                user.Baskets.Find(b => !b.IsDeleted && b.ProductId == id).Count++;
+            else
+            {
+                Basket newBasket = new();
+                newBasket.ProductId = product.Id;
+                newBasket.UserId = user.Id;
+                newBasket.Count = 1;
+                user.Baskets.Add(newBasket);
+            }
+            await _context.SaveChangesAsync();
         }
         HttpContext.Response.Cookies.Append("cart", JsonSerializer.Serialize(cart));
 

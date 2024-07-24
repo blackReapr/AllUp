@@ -35,4 +35,5 @@ public class Product : BaseEntity
     public IFormFile[]? Photos { get; set; }
     public List<ProductTag>? ProductTags { get; set; }
     public List<int>? TagIds { get; set; }
+    public List<Basket>? Baskets { get; set; }
 }
