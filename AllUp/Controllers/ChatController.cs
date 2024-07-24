@@ -19,4 +19,12 @@ public class ChatController : Controller
         ViewBag.Users = await _userManager.Users.ToListAsync();
         return View();
     }
+
+    public async Task<IActionResult> Private(string id)
+    {
+        AppUser? user = await _userManager.FindByIdAsync(id);
+        if (user == null) return NotFound();
+        if (User?.Identity?.Name == user.UserName) return RedirectToAction(nameof(Index));
+        return View(user);
+    }
 }

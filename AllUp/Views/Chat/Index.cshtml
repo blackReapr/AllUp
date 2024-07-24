@@ -16,7 +16,11 @@
             <ul class="users">
                 @foreach (AppUser user in ViewBag.Users)
                 {
-                    <li id="@user.Id" class="@(user.ConnectionId != null ? "text-success" : "text-danger")">@user.UserName</li>
+                    <li id="@user.Id" class="@(user.ConnectionId != null ? "text-success" : "text-danger")">
+                        <a asp-action="private" asp-route-id="@user.Id">
+                            @user.UserName
+                        </a>
+                    </li>
                 }
             </ul>
         </div>

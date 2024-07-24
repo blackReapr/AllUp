@@ -1,0 +1,45 @@
+﻿@model AppUser
+<div class="container">
+    <div class="row">
+        <input type="hidden" id="userId" value="@Model.Id" />
+        <h1>@Model.UserName</h1>
+        <span id="status">@(Model.ConnectionId != null ? "online" : "offline")</span>
+        <div class="col-6">
+            <label>Message</label>
+            <input id="message" type="text" />
+            <button id="sendAll" type="submit">Send</button>
+            <ul id="messageBox">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    connection.start();
+    const id = document.getElementById("userId").value;
+    document.getElementById("sendAll").addEventListener("click", () => {
+        const message = document.getElementById("message").value;
+        connection.invoke("Send", id, message);
+        const item = `<li>You said: ${message}</li>`
+        document.getElementById("messageBox").innerHTML += item;
+    })
+    connection.on("newMessage", (message, username) => {
+        console.log(message);
+        const item = `<li>${username} said: ${message}</li>`
+        document.getElementById("messageBox").innerHTML += item;
+    })
+
+    connection.on("userConnected", userId => {
+        if (userId == id) {
+            document.getElementById("status").innerText = "online";
+        }
+    })
+
+    connection.on("userDisconnected", userId => {
+        if (userId == id) {
+            document.getElementById("status").innerText = "offline";
+        }
+    })
+</script>

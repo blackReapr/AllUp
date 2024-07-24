@@ -19,7 +19,8 @@ public class ChatHub : Hub
     }
     public async Task Send(string userId, string message)
     {
-        await Clients.Client(userId).SendAsync(message);
+        string? connectionId = _userManager.FindByIdAsync(userId)?.Result?.ConnectionId;
+        await Clients.Client(connectionId).SendAsync("newMessage", message, _userManager.FindByIdAsync(userId)?.Result?.UserName);
     }
     public override Task OnConnectedAsync()
     {
@@ -29,6 +30,7 @@ public class ChatHub : Hub
             if (user != null)
             {
                 user.ConnectionId = Context.ConnectionId;
+                _userManager.UpdateAsync(user).Wait();
                 Clients.All.SendAsync("userConnected", user.Id).Wait();
             }
         }
@@ -42,6 +44,7 @@ public class ChatHub : Hub
             if (user != null)
             {
                 user.ConnectionId = null;
+                _userManager.UpdateAsync(user).Wait();
                 Clients.All.SendAsync("userDisconnected", user.Id).Wait();
             }
         }
